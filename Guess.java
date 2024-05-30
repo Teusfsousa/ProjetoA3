@@ -22,4 +22,6 @@ public class Guess {
     public String getProximidade() {
         return proximidade;
     }
+
+
 }

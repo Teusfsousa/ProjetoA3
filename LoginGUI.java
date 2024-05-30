@@ -3,6 +3,9 @@ import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.awt.Color.gray;
+import static java.awt.Color.yellow;
+
 public class LoginGUI extends JFrame {
     private JTextField campoID; // Entrada do ID, para o usuario digitar
     private JPasswordField campoSenha; // Entrada da senha, para o usuario digitar
@@ -15,11 +18,12 @@ public class LoginGUI extends JFrame {
 
     }
 
+
     private void configurarUI() {
         setTitle("Login Number Guess");
-        setSize(350, 350);
+        setSize(350, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Centralizar a janela no meio
+        setLocationRelativeTo(null); // Centralize a janela no meio
 
 
         campoID = new JTextField(15);
@@ -30,6 +34,8 @@ public class LoginGUI extends JFrame {
 
         JButton botaoCadastro = new JButton();
         botaoCadastro.setText("CADASTRAR");
+        botaoCadastro.setBackground(Color.yellow);
+        botaoCadastro.setFont(new Font("Arial", Font.BOLD, 15));
 
 
         botaoLogin.addActionListener(e -> {
@@ -45,6 +51,8 @@ public class LoginGUI extends JFrame {
         painel.add(campoSenha);
         painel.add(botaoLogin);
         painel.add(botaoCadastro);
+        painel.setBackground(gray);
+
 
         getContentPane().add(painel);
     }

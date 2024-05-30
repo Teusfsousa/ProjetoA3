@@ -5,12 +5,12 @@ public class Game {
     private int numeroAlvo; // número que precisa adivinhar
     private int tentativasRestantes; // número de tentativas restantes
     private int maxTentativas; // número de tentativas permitidas
+    private boolean jogadorGanhou; // indica se o jogador ganhou
 
     public Game(Player jogador, int maxTentativas) {
         this.jogador = jogador;
         this.maxTentativas = maxTentativas;
-        this.tentativasRestantes = maxTentativas;
-        gerarNovoNumeroAlvo();
+        resetarJogo();
     }
 
     public Player getJogador() {
@@ -23,23 +23,27 @@ public class Game {
 
     public void resetarJogo() {
         this.tentativasRestantes = maxTentativas; // Reseta o número de tentativas
+        this.jogadorGanhou = false;
         gerarNovoNumeroAlvo(); // Gera um novo número alvo
     }
 
     public Guess fazerPalpite(int numeroPalpite) {
         tentativasRestantes--;
         boolean estaCorreto = (numeroPalpite == numeroAlvo); // verifica se o palpite está correto
+        if (estaCorreto) {
+            jogadorGanhou = true;
+        }
         String proximidade = calcularProximidade(numeroPalpite); // calcula a proximidade
         return new Guess(numeroPalpite, estaCorreto, proximidade);
     }
 
     public boolean jogoAcabou() {
-        return tentativasRestantes <= 0 || jogadorGanhou();
+        return tentativasRestantes <= 10 || jogadorGanhou;
+
     }
 
     public boolean jogadorGanhou() {
-        // Verifica se o jogador adivinhou o número correto
-        return numeroAlvo == 0;
+        return jogadorGanhou;
     }
 
     private void gerarNovoNumeroAlvo() {

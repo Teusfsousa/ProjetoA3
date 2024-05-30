@@ -1,4 +1,4 @@
-public class Player {
+public class Player extends LoginGUI {
     private String id; //id do jogador
     private String senha; //senha do jogador
     private String nome; //nome do jogador
@@ -14,6 +14,10 @@ public class Player {
         this.tentativas = 0;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     // getters and setters
     public String getId() {
         return id;
@@ -22,7 +26,7 @@ public class Player {
         return senha;
     }
     public String getNome() {
-        return nome;
+       return nome;
     }
     public int getPontuacao() {
         return pontuacao;

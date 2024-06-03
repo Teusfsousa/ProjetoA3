@@ -3,9 +3,6 @@ import javax.swing.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.awt.Color.gray;
-import static java.awt.Color.yellow;
-
 public class LoginGUI extends JFrame {
     private JTextField campoID; // Entrada do ID, para o usuario digitar
     private JPasswordField campoSenha; // Entrada da senha, para o usuario digitar
@@ -15,33 +12,26 @@ public class LoginGUI extends JFrame {
     public LoginGUI() {
         usuarios = new HashMap<>();
         configurarUI(); // Configuração de login
-
     }
 
-
     private void configurarUI() {
+
         setTitle("Login Number Guess");
-        setSize(350, 200);
+        setSize(400, 380);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Centralize a janela no meio
-
 
         campoID = new JTextField(15);
         campoSenha = new JPasswordField(15);
         botaoLogin = new JButton("LOGIN");
         botaoLogin.setFont(new Font("Arial", Font.BOLD, 15));
-        botaoLogin.setBackground(Color.yellow);
+        botaoLogin.setBackground(Color.YELLOW);
 
-        JButton botaoCadastro = new JButton();
-        botaoCadastro.setText("CADASTRAR");
-        botaoCadastro.setBackground(Color.yellow);
+        JButton botaoCadastro = new JButton("CADASTRAR");
+        botaoCadastro.setBackground(Color.YELLOW);
         botaoCadastro.setFont(new Font("Arial", Font.BOLD, 15));
 
-
-        botaoLogin.addActionListener(e -> {
-            processarLogin(); // Botão e acionado quando o "Login" for clicado
-        });
-
+        botaoLogin.addActionListener(e -> processarLogin());
         botaoCadastro.addActionListener(e -> processarCadastro());
 
         JPanel painel = new JPanel(new GridLayout(8, 2));
@@ -51,8 +41,7 @@ public class LoginGUI extends JFrame {
         painel.add(campoSenha);
         painel.add(botaoLogin);
         painel.add(botaoCadastro);
-        painel.setBackground(gray);
-
+        painel.setBackground(Color.WHITE);
 
         getContentPane().add(painel);
     }
@@ -65,37 +54,41 @@ public class LoginGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Os campos não podem estar vazios");
 
         } else if (usuarios.containsKey(id)) {
-            JOptionPane.showMessageDialog(this, "ID ja cadastrado");
+            JOptionPane.showMessageDialog(this, "ID já cadastrado");
 
-        }else {
+        } else {
             usuarios.put(id, senha);
             JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso");
         }
-
     }
 
     private void processarLogin() {
         String id = campoID.getText();
         String senha = new String(campoSenha.getPassword());
 
-        if (usuarios.containsKey(id) && usuarios.get(id).equals(senha)){
-            JOptionPane.showMessageDialog(this, "logado com sucesso!");
+        if (id.isEmpty() || senha.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Os campos não podem estar vazios");
 
+        } else if (usuarios.containsKey(id) && usuarios.get(id).equals(senha)) {
+            JOptionPane.showMessageDialog(this, "Logado com sucesso!");
             Player jogador = new Player(id, senha, "Jogador1");
             Game jogo = new Game(jogador, 20);
             GameGUI gui = new GameGUI(jogo);
             gui.setVisible(true);
             dispose(); // Fecha a tela do login
+
+        } else if (!usuarios.containsKey(id)) {
+            JOptionPane.showMessageDialog(this, "ID não cadastrado.");
+
         } else {
             JOptionPane.showMessageDialog(this, "ID ou senha incorretos.");
         }
-
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
+
             LoginGUI login = new LoginGUI();
             login.setVisible(true);
-        });
+        }
     }
-}
+

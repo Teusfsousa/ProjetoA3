@@ -1,0 +1,1 @@
+Projeto sugerido pelo meu professor da universidade para criar um jogo em java para apresentar no final do semestre, sem usar framework, o jogo escolhido por mim e meu grupo foi um jogo de adivinhação

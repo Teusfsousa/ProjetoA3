@@ -20,14 +20,15 @@ public class LoginGUI extends JFrame {
         setSize(400, 380);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Centralize a janela no meio
+        setResizable(false); //Para bloquear a tela cheia do jogo
 
         campoID = new JTextField(15);
         campoSenha = new JPasswordField(15);
-        botaoLogin = new JButton("LOGIN");
+        botaoLogin = new JButton("JOGAR");
         botaoLogin.setFont(new Font("Arial", Font.BOLD, 15));
         botaoLogin.setBackground(Color.YELLOW);
 
-        JButton botaoCadastro = new JButton("CADASTRAR");
+        JButton botaoCadastro = new JButton("CRIAR ID");
         botaoCadastro.setBackground(Color.YELLOW);
         botaoCadastro.setFont(new Font("Arial", Font.BOLD, 15));
 
@@ -37,7 +38,7 @@ public class LoginGUI extends JFrame {
         JPanel painel = new JPanel(new GridLayout(8, 2));
         painel.add(new JLabel("Digite seu ID: "));
         painel.add(campoID);
-        painel.add(new JLabel("Digite sua senha: "));
+        painel.add(new JLabel("Digite sua senha ID: "));
         painel.add(campoSenha);
         painel.add(botaoLogin);
         painel.add(botaoCadastro);
@@ -58,7 +59,7 @@ public class LoginGUI extends JFrame {
 
         } else {
             usuarios.put(id, senha);
-            JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso");
+            JOptionPane.showMessageDialog(this, "ID criado com sucesso");
         }
     }
 
@@ -70,7 +71,7 @@ public class LoginGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Os campos não podem estar vazios");
 
         } else if (usuarios.containsKey(id) && usuarios.get(id).equals(senha)) {
-            JOptionPane.showMessageDialog(this, "Logado com sucesso!");
+            JOptionPane.showMessageDialog(this, "Logado com sucesso, agora vamos jogar!");
             Player jogador = new Player(id, senha, "Jogador1");
             Game jogo = new Game(jogador, 20);
             GameGUI gui = new GameGUI(jogo);

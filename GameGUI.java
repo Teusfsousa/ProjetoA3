@@ -26,6 +26,7 @@ public class GameGUI extends LoginGUI{
         setSize(400, 300);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
 
         campoPalpite = new JTextField(5);
         botaoPalpite = new JButton("Continue");

@@ -1,3 +1,5 @@
+import com.game.br.bancobd.CadastroDAO;
+
 import java.awt.*;
 import javax.swing.*;
 import java.util.HashMap;
@@ -12,6 +14,8 @@ public class LoginGUI extends JFrame {
     public LoginGUI() {
         usuarios = new HashMap<>();
         configurarUI(); // Configuração de login
+        Configuracao configuracao = new Configuracao();
+
     }
 
     private void configurarUI() {
@@ -47,6 +51,7 @@ public class LoginGUI extends JFrame {
         getContentPane().add(painel);
     }
 
+
     private void processarCadastro() {
         String id = campoID.getText();
         String senha = new String(campoSenha.getPassword());
@@ -60,7 +65,17 @@ public class LoginGUI extends JFrame {
         } else {
             usuarios.put(id, senha);
             JOptionPane.showMessageDialog(this, "ID criado com sucesso");
+
+            // Inserir no banco de dados usando CadastroDAO
+            CadastroDAO cadastroDAO = new CadastroDAO();
+            cadastroDAO.create(id, senha);  // Adiciona o novo usuário ao banco de dados
+            usuarios.put(id, senha);
+            JOptionPane.showMessageDialog(this, "ID criado com sucesso");
+            Configuracao configuracao = new Configuracao();
+            configuracao.setSenha(senha);
+            configuracao.setId(id);
         }
+
     }
 
     private void processarLogin() {
@@ -83,6 +98,8 @@ public class LoginGUI extends JFrame {
 
         } else {
             JOptionPane.showMessageDialog(this, "ID ou senha incorretos.");
+
+
         }
     }
 

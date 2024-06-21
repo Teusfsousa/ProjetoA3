@@ -6,25 +6,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginGUI extends JFrame {
-    private JTextField campoID; // Entrada do ID, para o usuario digitar
-    private JPasswordField campoSenha; // Entrada da senha, para o usuario digitar
+    private JTextField campoID; // Entrada do ID, para o usuário digitar
+    private JPasswordField campoSenha; // Entrada da senha, para o usuário digitar
     private JButton botaoLogin; // Botão de login
     private Map<String, String> usuarios;
 
     public LoginGUI() {
         usuarios = new HashMap<>();
         configurarUI(); // Configuração de login
-        Configuracao configuracao = new Configuracao();
-
     }
 
     private void configurarUI() {
-
         setTitle("Login Number Guess");
         setSize(400, 380);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Centralize a janela no meio
-        setResizable(false); //Para bloquear a tela cheia do jogo
+        setLocationRelativeTo(null); // Centraliza a janela no meio
+        setResizable(false); // Para bloquear a tela cheia do jogo
 
         campoID = new JTextField(15);
         campoSenha = new JPasswordField(15);
@@ -51,17 +48,14 @@ public class LoginGUI extends JFrame {
         getContentPane().add(painel);
     }
 
-
     private void processarCadastro() {
         String id = campoID.getText();
         String senha = new String(campoSenha.getPassword());
 
         if (id.isEmpty() || senha.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Os campos não podem estar vazios");
-
         } else if (usuarios.containsKey(id)) {
             JOptionPane.showMessageDialog(this, "ID já cadastrado");
-
         } else {
             usuarios.put(id, senha);
             JOptionPane.showMessageDialog(this, "ID criado com sucesso");
@@ -69,13 +63,7 @@ public class LoginGUI extends JFrame {
             // Inserir no banco de dados usando CadastroDAO
             CadastroDAO cadastroDAO = new CadastroDAO();
             cadastroDAO.create(id, senha);  // Adiciona o novo usuário ao banco de dados
-            usuarios.put(id, senha);
-            JOptionPane.showMessageDialog(this, "ID criado com sucesso");
-            Configuracao configuracao = new Configuracao();
-            configuracao.setSenha(senha);
-            configuracao.setId(id);
         }
-
     }
 
     private void processarLogin() {
@@ -84,29 +72,29 @@ public class LoginGUI extends JFrame {
 
         if (id.isEmpty() || senha.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Os campos não podem estar vazios");
-
-        } else if (usuarios.containsKey(id) && usuarios.get(id).equals(senha)) {
-            JOptionPane.showMessageDialog(this, "Logado com sucesso, agora vamos jogar!");
-            Player jogador = new Player(id, senha, "Jogador1");
-            Game jogo = new Game(jogador, 20);
-            GameGUI gui = new GameGUI(jogo);
-            gui.setVisible(true);
-            dispose(); // Fecha a tela do login
-
-        } else if (!usuarios.containsKey(id)) {
-            JOptionPane.showMessageDialog(this, "ID não cadastrado.");
-
         } else {
-            JOptionPane.showMessageDialog(this, "ID ou senha incorretos.");
+            CadastroDAO cadastroDAO = new CadastroDAO();
+            boolean isValidUser = cadastroDAO.validateUser(id, senha);
 
-
+            if (isValidUser) {
+                JOptionPane.showMessageDialog(this, "Logado com sucesso, agora vamos jogar!");
+                Player jogador = new Player(id, senha, "Jogador1");
+                Game jogo = new Game(jogador, 20);
+                GameGUI gui = new GameGUI(jogo);
+                gui.setVisible(true);
+                dispose(); // Fecha a tela do login
+            } else {
+                JOptionPane.showMessageDialog(this, "ID ou senha incorretos.");
+            }
         }
     }
 
     public static void main(String[] args) {
-
+        {
             LoginGUI login = new LoginGUI();
             login.setVisible(true);
+
         }
     }
+}
 
